@@ -29,3 +29,39 @@
 2. Файл docker-compose.yml с установкой PostgreSQL и заполненными данными из файлов mock_data(*).csv.
 3. Скрипты DDL (SQL) создания таблиц фактов и измерений в соответствии с моделью снежинка/звезда.
 4. Скрипты DML (SQL) заполнения таблиц фактов и измерений из исходных данных.
+
+## Запуск (реализация)
+
+Суть лабы — **SQL** (DDL/DML) и данные в PostgreSQL. Docker в задании указан как один из способов поднять БД; если PostgreSQL уже установлен (как на вашем Mac), контейнер **не нужен**.
+
+### Docker
+
+```bash
+docker compose up -d
+```
+
+| Параметр | Значение |
+|----------|----------|
+| Host     | `localhost` |
+| Port     | `5432` |
+| Database | `petshop_dw` |
+| User     | `lab` |
+| Password | `lab` |
+
+### Структура SQL
+
+| Файл | Назначение |
+|------|------------|
+| `sql/01_import_mock.sql` | Импорт CSV → `mock_data` |
+| `sql/02_DDL.sql` | Таблицы снежинки |
+| `sql/03_DML.sql` | Заполнение измерений и `fact_sales` |
+| `sql/04_validation.sql` | Проверка |
+| `check.sql` | Быстрая проверка из терминала |
+
+Исходные CSV: `исходные данные/MOCK_DATA.csv`, `MOCK_DATA (1).csv` … `MOCK_DATA (9).csv` (10 000 строк).
+
+### Схема снежинки
+
+- **Факт:** `fact_sales`
+- **Измерения:** `dim_customer`, `dim_seller`, `dim_store`, `dim_supplier`, `dim_product`, `dim_date`, `dim_pet`, `dim_pet_category`
+- **Подизмерения:** `dim_country`, `dim_product_category`, `dim_product_brand`
